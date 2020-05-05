@@ -12,7 +12,7 @@ from django.template.response import TemplateResponse
 from django.utils import six
 from django.utils.encoding import force_text
 from django.utils.html import escape
-from django.utils.text import capfirst, get_text_list
+from django.utils.text import get_text_list
 from django.template import loader
 from django.utils.translation import ugettext as _
 from django.forms.widgets import Media

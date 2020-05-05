@@ -45,8 +45,12 @@ INSTALLED_APPS = [
     # 'crispy-forms', # OSError: [WinError 123] 文件名、目录名或卷标语法不正确
     # together with xadmin
     'crispy_forms',
+    'rest_framework',
+    'rest_framework.authtoken',
     'demo',
     'students',
+    'classes',
+    'majors',
 ]
 
 MIDDLEWARE = [
@@ -64,8 +68,6 @@ ROOT_URLCONF = 'dyezweb.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # 新增templates目录
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -132,3 +134,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
