@@ -14,6 +14,7 @@ import os
 import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# BASE_DIR 对应 “backend”目录的绝对路径。
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 新增apps, extra_apps等python包
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
@@ -31,7 +32,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,16 +41,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'xadmin',
+    'xadmin',  # 后台管理模块
     # 'crispy-forms', # OSError: [WinError 123] 文件名、目录名或卷标语法不正确
     # together with xadmin
     'crispy_forms',
-    'rest_framework',
+    'rest_framework',  # drf 框架
     'rest_framework.authtoken',
-    'demo',
-    'students',
-    'classes',
-    'majors',
+    'students',  # 学生模块
+    'classes',  # 班级模块
+    'majors',  # 专业模块
+    'services',  # 服务模块
+    'users',  # 用户模块
+    'areas',   # 省市区模块
+    'admissions',   # 网上入学报名模块
+    # 'enrollments',   # 网上入学报名模块
+    # 'tinymce',  # 富文本编辑器
+    'DjangoUeditor',  # 富文本编辑器
 ]
 
 MIDDLEWARE = [
@@ -135,6 +141,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+MEDIA_URL = "/media/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -147,3 +160,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+# 修改Django认证系统中的用户模型
+AUTH_USER_MODEL = 'users.User'  # 应用名称.模型类名称

@@ -14,12 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, include
-# xadmin 目录已经 masked as Sources Root
-import xadmin
-# apps: rest_framework
-# import rest_framework
-from django.contrib.auth.models import User
+from django.contrib import admin
 from rest_framework import routers, serializers, viewsets
+
+# xadmin 模块的父目录已经 masked as Sources Root
+import xadmin
+
+# from django.contrib.auth.models import User
+# 使用自定义的用户模型
+# 自定义用户模块的父目录已经 masked as Sources Root
+from users.models import User
+
+
 
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -45,8 +51,10 @@ from rest_framework.authtoken import views
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    # path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('xadmin/', xadmin.site.urls),
+    # 富文本相关url
+    path('ueditor/', include('DjangoUeditor.urls')),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     # 通过post方式提交json数据 {"username": "yhb","password": "123"}, 获得token
