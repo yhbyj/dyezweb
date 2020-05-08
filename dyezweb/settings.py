@@ -48,15 +48,15 @@ INSTALLED_APPS = [
     'rest_framework',  # drf 框架
     'rest_framework.authtoken',
     'students',  # 学生模块
-    'classes',  # 班级模块
+    'clazzs',  # 班级模块 (避开关键字class)
     'majors',  # 专业模块
     'services',  # 服务模块
-    'users',  # 用户模块
     'areas',   # 省市区模块
     'admissions',   # 网上入学报名模块
-    # 'enrollments',   # 网上入学报名模块
     # 'tinymce',  # 富文本编辑器
     'DjangoUeditor',  # 富文本编辑器
+    'guardians',  # 监护人模块
+    'accounts',   # 账户模块（自定义用户模块）
 ]
 
 MIDDLEWARE = [
@@ -162,4 +162,5 @@ REST_FRAMEWORK = {
 }
 
 # 修改Django认证系统中的用户模型
-AUTH_USER_MODEL = 'users.User'  # 应用名称.模型类名称
+# AUTH_USER_MODEL = 'users.User'  # 应用名称.模型类名称
+AUTH_USER_MODEL = 'accounts.Account'  # 应用名称.模型类名称

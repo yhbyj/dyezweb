@@ -1,3 +1,2 @@
-/backend/db.sqlite3
-/materials/
-/tools/db/data/
+/_offline/
+/db.sqlite3

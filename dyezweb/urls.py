@@ -23,24 +23,24 @@ import xadmin
 # from django.contrib.auth.models import User
 # 使用自定义的用户模型
 # 自定义用户模块的父目录已经 masked as Sources Root
-from users.models import User
+from accounts.models import Account
 
 
 
 # Serializers define the API representation.
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class AccountSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = User
+        model = Account
         fields = ['url', 'username', 'email', 'is_staff']
 
 # ViewSets define the view behavior.
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+class AccountViewSet(viewsets.ModelViewSet):
+    queryset = Account.objects.all()
+    serializer_class = AccountSerializer
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
-router.register('users', UserViewSet)
+router.register('accounts', AccountViewSet)
 
 
 

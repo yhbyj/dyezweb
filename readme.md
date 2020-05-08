@@ -35,6 +35,32 @@ rest_framework.authtoken    api-token-auth/
 ```
 ###网上入学报名（admissions app）  
 ```text
-不开放注册，直接线下获取用户身份证、手机号或电子邮箱，在后台注册，生成登录账号和密码。
-用户根据获取的账号（身份证、手机号或电子邮箱）和密码登录，完善报名信息。
+不开放注册，直接线下获取用户手机号或电子邮箱（如QQ邮箱），在后台注册，生成登录账号和密码。
+用户根据获取的账号（手机号或电子邮箱）和密码登录，完善报名信息。
+```
+##第四天  
+### 针对django2.2报错：UnicodeDecodeError: ‘gbk’ codec can’t decode byte 0xa6 in position 9737: ill…  
+
+```text
+https://blog.csdn.net/weixin_43279476/article/details/91951235
+1、报错：
+File “D:\Python\Python37-32\lib\site-packages\django\views\debug.py”, line 332, in get_traceback_html
+t = DEBUG_ENGINE.from_string(fh.read())
+UnicodeDecodeError: ‘gbk’ codec can’t decode byte 0xa6 in position 9737: illegal multibyte sequence
+2、解决：
+打开django/views下的debug.py文件，转到line331行：
+with Path(CURRENT_DIR, ‘templates’, ‘technical_500.html’).open() as fh
+将其改成：
+with Path(CURRENT_DIR, ‘templates’, ‘technical_500.html’).open(encoding=“utf-8”) as fh
+就成功了。
+```
+###数据验证  
+```text
+1、数据模型类中重写 clean 方法；
+2、注册数据模型到后台管理时，创建继承forms.ModelForm的类；
+```
+###数据库和模型类：账户信息、监护人等   
+```text
+1、users -> accounts
+2、guardians
 ```

@@ -19,12 +19,12 @@ class Student(BaseModel):
     gender = models.SmallIntegerField(default=0, choices=gender_choices, verbose_name='性别')
     # age = models.IntegerField(default=0, verbose_name='年龄')
     status = models.SmallIntegerField(default=1, choices=status_choices, verbose_name='学生状态')
-    clazz = models.ForeignKey('classes.Class', on_delete=models.CASCADE, verbose_name='班级')
+    clazz = models.ForeignKey('clazzs.Clazz', on_delete=models.CASCADE, verbose_name='班级')
     major = models.ForeignKey('majors.Major', on_delete=models.CASCADE, verbose_name='专业')
 
     class Meta:
         # zz: 中职
-        db_table = 'zz_student'
+        db_table = 'tb_student'
         verbose_name = "学生"
         verbose_name_plural = verbose_name
 

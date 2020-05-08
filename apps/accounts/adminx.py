@@ -1,6 +1,6 @@
 # _*_ coding: utf-8 _*_
 __author__ = 'Yang Haibo'
-__date__ = '2020/5/7 10:20'
+__date__ = '2020/5/8 14:42'
 
 import xadmin
 from xadmin import views
@@ -8,8 +8,6 @@ from xadmin import views
 # Register your models here.
 
 
-# django.core.exceptions.ImproperlyConfigured: Put 'django.contrib.contenttypes'
-# in your INSTALLED_APPS setting in order to use the admin application.
 class GlobalSetting(object):
     # 设置后台顶部标题
     site_title = '中职信息管理系统-后台'

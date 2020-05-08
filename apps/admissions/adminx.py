@@ -7,7 +7,9 @@ from .models import Admission
 
 
 class AdmissionAdmin(object):
-    model_icon = 'fa fa-home'
+    """
+    入学申请（报名）类型管理
+    """
     list_display = ['name', 'sex', 'hukou', 'nationality', 'native_place', 'id_card_no',
                     'political_status', 'health_status', 'origin', 'parent_name', 'graduate_school', 'position']
     list_filter = ['sex', 'hukou', 'nationality', 'native_place', 'political_status',
