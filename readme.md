@@ -64,3 +64,15 @@ with Path(CURRENT_DIR, ‘templates’, ‘technical_500.html’).open(encoding=
 1、users -> accounts
 2、guardians
 ```
+##第五天   
+### viewsets.ModelViewSet   
+```text
+序列化： serializer_class  
+分页： pagination_class  
+过滤： filterset_class
+搜索： search_fields
+```
+###后台管理   
+```text
+InlineModelAdmin: Working with many-to-many intermediary models
+```

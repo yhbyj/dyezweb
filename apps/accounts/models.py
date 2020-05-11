@@ -19,7 +19,7 @@ class Account(AbstractUser):
 
     class Meta:
         db_table = 'tb_account'
-        verbose_name = '账户'
+        verbose_name = '用户账户'
         verbose_name_plural = verbose_name
 
     def __str__(self):

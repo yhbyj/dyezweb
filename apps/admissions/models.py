@@ -1,7 +1,9 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.core.exceptions import ValidationError
 
-
+# from accounts.models import Account
+from majors.models import Major
 from utils.db.base_model import BaseModel
 from utils.db.validation import check_id_card_no
 
@@ -166,16 +168,20 @@ class Admission(BaseModel):
     # 在新增加下列字段时，模型已经迁移建表,并且表中已经有数据
     # 因此必须给默认值或可以为空,不然迁移就报错！
     # 大专班1
-    major11 = models.CharField(max_length=50, null=True, blank=True, verbose_name='大专班1')
+    # major11 = models.CharField(max_length=50, null=True, blank=True, verbose_name='大专班1')
     # 大专班2
-    major12 = models.CharField(max_length=50, null=True, blank=True, verbose_name='大专班2')
+    # major12 = models.CharField(max_length=50, null=True, blank=True, verbose_name='大专班2')
     # 中职班1
-    major21 = models.CharField(max_length=50, null=True, blank=True, verbose_name='中职班1')
+    # major21 = models.CharField(max_length=50, null=True, blank=True, verbose_name='中职班1')
     # 中职班2
-    major22 = models.CharField(max_length=50, null=True, blank=True, verbose_name='中职班2')
+    # major22 = models.CharField(max_length=50, null=True, blank=True, verbose_name='中职班2')
+    # 一个人可以报多个专业，一个专业可以被多个人申请
+    majors = models.ManyToManyField(Major, through='AdmissionMajor', through_fields=('admission', 'major'), verbose_name='专业')
 
-    # 填表人，信息来自账户ID，但不进行外键关联
-    filler_id = models.IntegerField(default=0, verbose_name='填报人')
+    # 用户账户
+    account = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, verbose_name='用户账户')
+    # 填表人
+    filler = models.CharField(max_length=50, null=True, blank=True, verbose_name='填表人')
     # 推荐人（教职工）
     adviser = models.CharField(max_length=50, null=True, blank=True, verbose_name='推荐人')
     # 家庭住址
@@ -186,6 +192,16 @@ class Admission(BaseModel):
     mobile = models.CharField(max_length=11, null=True, blank=True, verbose_name='手机号码')
     # 联系方式2
     telephone_number = models.CharField(max_length=20, null=True, blank=True, verbose_name='电话号码')
+    # 预报名确认
+    confirmed = models.BooleanField(default=False, verbose_name='预报名确认状态')
+    # 确认文书
+    confirmed_with = models.TextField(default='你已成功预报名，需网上报名时再次确认，优先录取。', max_length=200, verbose_name='确认文书')
+    # 确认人
+    confirmed_by = models.CharField(max_length=50, null=True, blank=True, verbose_name='确认人')
+    # 确认日期
+    confirmed_on = models.DateField(null=True, blank=True, verbose_name='确认日期')
+    # 备注
+    memo = models.TextField(max_length=200, null=True, blank=True, verbose_name='备注')
 
     class Meta:
         db_table = 'tb_admission'
@@ -204,3 +220,21 @@ class Admission(BaseModel):
         code, message = check_id_card_no(self.id_card_no)
         if code != 0:
             raise ValidationError(message)
+
+
+class AdmissionMajor(BaseModel):
+    """
+    入学申请专业类：一个申请人可以申请多个专业，一个专业可以被多个人申请
+    This is a many-to-many intermediary model
+    """
+    # 入学申请
+    admission = models.ForeignKey(Admission, on_delete=models.CASCADE, related_name='admissions', verbose_name='入学申请')
+    major = models.ForeignKey(Major, on_delete=models.CASCADE, related_name='majors', verbose_name='专业')
+
+    class Meta:
+        db_table = 'tb_admissions_majors'
+        verbose_name = '入学申请专业'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return '{}{}'.format(self.admission.name, self.major.title)

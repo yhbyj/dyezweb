@@ -1,6 +1,7 @@
 from django.db import models
 from utils.db.base_model import BaseModel
 
+
 # Create your models here.
 class Major(BaseModel):
     """

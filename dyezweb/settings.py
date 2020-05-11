@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # 'crispy-forms', # OSError: [WinError 123] 文件名、目录名或卷标语法不正确
     # together with xadmin
     'crispy_forms',
+    'django_filters',
     'rest_framework',  # drf 框架
     'rest_framework.authtoken',
     'students',  # 学生模块
@@ -159,6 +160,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
 # 修改Django认证系统中的用户模型

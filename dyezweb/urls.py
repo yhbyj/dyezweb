@@ -15,38 +15,24 @@ Including another URLconf
 """
 from django.urls import path, include
 from django.contrib import admin
-from rest_framework import routers, serializers, viewsets
+from rest_framework import routers
 
-# xadmin 模块的父目录已经 masked as Sources Root
+# xadmin 模块的父目录(extra_apps)已经 masked as Sources Root
 import xadmin
-
-# from django.contrib.auth.models import User
-# 使用自定义的用户模型
-# 自定义用户模块的父目录已经 masked as Sources Root
-from accounts.models import Account
-
-
-
-# Serializers define the API representation.
-class AccountSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Account
-        fields = ['url', 'username', 'email', 'is_staff']
-
-# ViewSets define the view behavior.
-class AccountViewSet(viewsets.ModelViewSet):
-    queryset = Account.objects.all()
-    serializer_class = AccountSerializer
-
-# Routers provide an easy way of automatically determining the URL conf.
-router = routers.DefaultRouter()
-router.register('accounts', AccountViewSet)
-
-
 
 # apps: rest_framework.authtoken
 # By exposing an api endpoint
 from rest_framework.authtoken import views
+
+# 使用自定义的用户模型
+# 自定义用户模块的父目录(apps)已经 masked as Sources Root
+# Routers provide an easy way of automatically determining the URL conf.
+from accounts.views import AccountViewSet
+from areas.views import AreaViewSet
+
+router = routers.DefaultRouter()
+router.register('accounts', AccountViewSet)
+router.register('areas', AreaViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
