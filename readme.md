@@ -75,4 +75,15 @@ with Path(CURRENT_DIR, ‘templates’, ‘technical_500.html’).open(encoding=
 ###后台管理   
 ```text
 InlineModelAdmin: Working with many-to-many intermediary models
+入学申请和专业之间的多对多关系：一人可以申请多个专业，一个专业可以被多个人申请
+```
+##第六天 
+### 模型类  
+```text
+专业类：Major
+专业类别类：MajorCategory
+```  
+### 后台管理  
+```text
+自定义过滤类：class TopMajorCategoryListFilter(admin.SimpleListFilter)
 ```

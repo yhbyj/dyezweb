@@ -7,9 +7,8 @@ from majors.models import Major
 from utils.db.base_model import BaseModel
 from utils.db.validation import check_id_card_no
 
+
 # Create your models here.
-
-
 class Admission(BaseModel):
     '''
     入学申请（报名）模型类
@@ -237,4 +236,4 @@ class AdmissionMajor(BaseModel):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return '{}{}'.format(self.admission.name, self.major.title)
+        return '{}{}'.format(self.admission.name, self.major.name)
