@@ -34,6 +34,7 @@ class AdmissionAdmin(admin.ModelAdmin):
         """
         return [a.major for a in AdmissionMajor.objects.fiter(admission=obj.id)]
 
+    # 默认位置在最下方,如何调整位置?
     inlines = [AdmissionMajorInline]
 
     # change list page options
@@ -52,7 +53,7 @@ class AdmissionAdmin(admin.ModelAdmin):
     list_editable = ['id_card_no', 'is_delete', 'confirmed']
 
     # control the layout of admin “add” and “change” pages
-    readonly_fields = ['account', 'create_time', 'update_time']
+    readonly_fields = ['create_time', 'update_time']
     radio_fields =  {"sex": admin.HORIZONTAL, "hukou": admin.HORIZONTAL,
                      "political_status": admin.HORIZONTAL, "health_status": admin.HORIZONTAL,
                      "origin": admin.HORIZONTAL}

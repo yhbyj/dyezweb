@@ -81,13 +81,13 @@ class MajorAdmin(admin.ModelAdmin):
     # bottom_category = MajorCategory.objects.filter(category_type=2)
 
     # change list page options
-    list_display = ['code', 'name', 'category', 'status', 'create_time', 'update_time', 'is_delete']
+    list_display = ['short_code', 'name', 'category', 'status', 'create_time', 'update_time', 'is_delete', 'code']
     list_display_links = ['name']
     list_filter = [TopMajorCategoryListFilter, 'status', 'create_time', 'update_time', 'is_delete']
     list_editable = ['status']
 
     # control the layout of admin “add” and “change” pages
-    fields = ['code', 'name', 'category', 'status']
+    fields = ['short_code', 'name', 'category', 'status', 'code']
 
 
 admin.site.register(MajorCategory, MajorCategoryAdmin)

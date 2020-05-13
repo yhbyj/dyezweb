@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.validators import RegexValidator
 from django.db import models
 from django.core.exceptions import ValidationError
 
@@ -139,7 +140,7 @@ class Admission(BaseModel):
         (37, "樟村初中"),
         (38, "佐村镇中")
     )
-    # 初中毕业生姓名，最长字符20，必选项
+    # 初中毕业生姓名，最长字符50，必选项
     name = models.CharField(max_length=50, verbose_name='姓名')
     # 性别，默认值为(0, "男")
     sex = models.SmallIntegerField(default=0, choices=SEX_CHOICES, verbose_name='性别')
@@ -150,7 +151,8 @@ class Admission(BaseModel):
     # 籍贯，默认值为“浙江东阳”
     native_place = models.CharField(default='浙江东阳', max_length=50, blank=True,  verbose_name='籍贯')
     # 身份证号码
-    id_card_no = models.CharField(max_length=18, verbose_name='身份证号码')
+    id_card_no = models.CharField(max_length=18, verbose_name='身份证号码',
+                                  validators=[RegexValidator(r'\d{17}\w{1}', message='请输入正确格式的身份证号码！')])
     # 政治面貌，默认值为(0, "群众")
     political_status = models.SmallIntegerField(default=0, choices=POLITICAL_STATUS_CHOICES, verbose_name='政治面貌')
     # 健康状况，默认值为(0, "健康或良好")
@@ -186,9 +188,11 @@ class Admission(BaseModel):
     # 家庭住址
     address = models.CharField(max_length=100, null=True, blank=True, verbose_name='家庭住址')
     # 邮政编码
-    zip_code = models.CharField(max_length=6, null=True, blank=True, verbose_name='邮编')
+    zip_code = models.CharField(max_length=6, null=True, blank=True, verbose_name='邮编',
+                                validators=[RegexValidator(r'\d{6}', message='请输入正确格式的邮政编码！')])
     # 联系方式1
-    mobile = models.CharField(max_length=11, null=True, blank=True, verbose_name='手机号码')
+    mobile = models.CharField(max_length=11, null=True, blank=True, verbose_name='手机号码',
+                              validators=[RegexValidator(r'1[345678]\d{9}', message='请输入正确格式的手机号码！')])
     # 联系方式2
     telephone_number = models.CharField(max_length=20, null=True, blank=True, verbose_name='电话号码')
     # 预报名确认

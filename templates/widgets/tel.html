@@ -1,0 +1,51 @@
+<input type="{{ widget.type }}" name="{{ widget.name }}"{% if widget.value != None %}
+       value="{{ widget.value|stringformat:'s' }}"{% endif %}
+        {% include "widgets/attrs.html" %}>
+  <br>
+<button id="code-btn" class="btn" type="button">发送验证码</button>
+<span id="code-msg" style="margin-left:10px;"></span>
+<script>
+    $('#code-btn').click(function () {
+        var count = 20;
+        var phone = $("#id_tel").val();//手机号码
+        var reg_phone = /1\d{10}/;
+        if (!reg_phone.test(phone)) {   //验证手机是否符合格式
+            alert("填写您的手机号");
+            return false;
+        }
+
+        $("#id_tel").attr("readonly", "readonly");
+        $("#code-btn").attr('disabled', 'disabled');
+
+        //向后台发送处理数据
+        $.ajax({
+            type: "POST", //用POST方式传输
+            dataType: "json", //数据格式:JSON
+            url: '{% url 'userinfo:sms_code' %}', //目标地址
+            data: "tel=" + phone,
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+            },
+            complete: function (msg) {
+                if (msg.responseText == '发送成功') {
+                    $('#code-msg').html('<font color=green>' + msg.responseText + '</font>');
+                    //开始计时
+                    $("#code-btn").html("倒计时" + count + "秒");
+                    var timer = setInterval(function () {
+                        count--;
+                        $("#code-btn").html("倒计时" + count + "秒");
+                        if (count == 0) {
+                            clearInterval(timer);
+                            $("#code-btn").attr("disabled", false);//启用按钮
+                            $("#code-btn").html("重新发送验证码");
+                            $("#id_tel").removeAttr("readonly");
+                        }
+                    }, 1000);
+                } else {
+                    $("#code-btn").attr("disabled", false);//启用按钮
+                    $("#id_tel").removeAttr("readonly");
+                    $('#code-msg').html('<font color=red>' + msg.responseText + '</font>');
+                }
+            },
+        });
+    });
+</script>

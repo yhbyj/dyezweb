@@ -87,3 +87,12 @@ InlineModelAdmin: Working with many-to-many intermediary models
 ```text
 自定义过滤类：class TopMajorCategoryListFilter(admin.SimpleListFilter)
 ```
+##第七天 
+### 准备测试数据  
+```text
+excel_to_sql： {"sqlite": datetime('now','localtime'), "sql":now()}
+```  
+### 数据验证    
+```text
+django.core.validators  on model level
+```  

@@ -14,7 +14,7 @@ class MajorCategory(BaseModel):
     name = models.CharField(max_length=50, verbose_name='专业类别')
     desc = models.TextField(default="", verbose_name="类别描述")
     # 设置目录树的级别
-    category_type = models.IntegerField(choices=CATEGORY_TYPE, verbose_name="类别级别")
+    category_type = models.SmallIntegerField(default=2, choices=CATEGORY_TYPE, verbose_name="类别级别")
     # 设置models有一个指向自己的外键
     parent_category = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, verbose_name="父类别",
                                         related_name="sub_cat")
@@ -39,10 +39,14 @@ class Major(BaseModel):
         (0, '下线'),
         (1, '上线'),
     )
+    # todo
+    # 专业对应的类别应该是二级类别，不能对应一级类别，如何解决？
     category = models.ForeignKey(MajorCategory, on_delete=models.CASCADE, verbose_name="专业类别")
-    code = models.CharField(max_length=2, verbose_name="专业编号")
+    short_code = models.CharField(max_length=2, verbose_name="专业编号")
     name = models.CharField(max_length=50, verbose_name='专业名称')
     status = models.SmallIntegerField(default=1, choices=status_choices, verbose_name='专业状态')
+    quota = models.IntegerField(default=35,  verbose_name='招生人数')
+    code = models.CharField(max_length=6, null=True, blank=True, verbose_name="专业代码")
 
     class Meta:
         db_table = 'tb_major'
