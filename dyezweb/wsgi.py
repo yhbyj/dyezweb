@@ -11,6 +11,8 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dyezweb.settings')
+# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dyezweb.settings')
+# 线上测试
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dyezweb.settings.online')
 
 application = get_wsgi_application()

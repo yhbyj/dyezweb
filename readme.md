@@ -96,3 +96,9 @@ excel_to_sql： {"sqlite": datetime('now','localtime'), "sql":now()}
 ```text
 django.core.validators  on model level
 ```  
+##第八天 
+### 上线测试  
+```text
+分离 settings 文件： local and online
+docker-compose -f online.yum build
+```  
