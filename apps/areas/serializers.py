@@ -8,6 +8,7 @@ from .models import Area
 
 # Serializers define the API representation.
 class AreaSerializer2(serializers.ModelSerializer):
+
     class Meta:
         model = Area
         fields = '__all__'
@@ -18,6 +19,7 @@ class AreaSerializer(serializers.ModelSerializer):
     行政区划数据序列化类
     """
     subs = AreaSerializer2(many=True)
+
     class Meta:
         model = Area
         fields = '__all__'

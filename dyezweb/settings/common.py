@@ -158,3 +158,9 @@ REST_FRAMEWORK = {
 # 修改Django认证系统中的用户模型
 # AUTH_USER_MODEL = 'users.User'  # 应用名称.模型类名称
 AUTH_USER_MODEL = 'accounts.Account'  # 应用名称.模型类名称
+
+# 云片网设置
+APIKEY = ''
+
+# 手机号码正则表达式
+REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"

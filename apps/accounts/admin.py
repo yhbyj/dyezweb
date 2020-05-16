@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Account
+from .models import Account, SmsCode
 
 
 # Register your models here.
@@ -32,9 +32,21 @@ class AccountAdmin(admin.ModelAdmin):
     )
 
 
+class SmsCodeAdmin(admin.ModelAdmin):
+    """
+    短信验证码类型管理
+    """
+    # change list page options
+    date_hierarchy = 'add_time'
+    list_display = ['mobile', 'code', 'add_time']
+    search_fields = ['mobile']
+
+    # control the layout of admin “add” and “change” pages
+    fields = ['mobile', 'code', 'add_time']
+
 
 admin.site.site_header = '中职信息管理系统-后台'
 admin.site.site_title = '中职信息管理系统-后台'
 
 admin.site.register(Account, AccountAdmin)
-
+admin.site.register(SmsCode, SmsCodeAdmin)

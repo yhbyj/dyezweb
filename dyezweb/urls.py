@@ -27,12 +27,13 @@ from rest_framework.authtoken import views
 # 使用自定义的用户模型
 # 自定义用户模块的父目录(apps)已经 masked as Sources Root
 # Routers provide an easy way of automatically determining the URL conf.
-from accounts.views import AccountViewSet
+from accounts.views import AccountViewSet, SmsCodeViewSet
 from areas.views import AreaViewSet
 
 router = routers.DefaultRouter()
 router.register('accounts', AccountViewSet)
 router.register('areas', AreaViewSet)
+router.register('smscodes', SmsCodeViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
@@ -47,5 +48,3 @@ urlpatterns = [
     # 测试软件： postman
     path('api-token-auth/', views.obtain_auth_token),
 ]
-
-
