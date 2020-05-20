@@ -9,7 +9,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from dyezweb.settings.common import REGEX_MOBILE
+from dyezweb.settings import REGEX_MOBILE
 from .models import Account, SmsCode
 
 User = get_user_model()

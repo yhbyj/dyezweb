@@ -6,9 +6,6 @@ volumes:
 
 services:
   dyezweb:
-    build:
-      context: .
-      dockerfile: _deployment/docker/online/django/Dockerfile
     image: dyezweb
     container_name: dyezweb
     working_dir: /app

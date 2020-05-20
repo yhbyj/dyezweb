@@ -13,6 +13,6 @@ from django.core.wsgi import get_wsgi_application
 
 # os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dyezweb.settings')
 # 线上测试
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dyezweb.settings.online')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dyezweb.settings')
 
 application = get_wsgi_application()

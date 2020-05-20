@@ -10,14 +10,23 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
+# 移动此文件，去覆盖 settings.py 文件。
+
 import os
 import sys
 
-# 当前文件所在的路径是 /dyezweb/settings/，共三层。
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 新增apps, extra_apps等python包
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
+
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+
+DEBUG = False
+
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -81,13 +90,15 @@ WSGI_APPLICATION = 'dyezweb.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# 数据库配置项
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),  # for branch:user_inlined
-        # 在做docker方式部署时，因为数据卷只能映射文件夹而不能映射单一的文件，
-        # 所以对我们应用的数据库来说，db.master.sqlite3 文件我们把它挪到了 database 目录下。
-        'NAME': os.path.join(BASE_DIR, 'database', 'db.master.sqlite3'),  # for branch:master
+        'ENGINE': 'django.db.backends.mysql',  # 数据库引擎
+        'HOST': '127.0.0.1',  # 数据库主机
+        'PORT': 3306,  # 数据库端口
+        'USER': 'dyezweb',  # 数据库用户名
+        'PASSWORD': '123456',  # 数据库用户密码
+        'NAME': 'dyezweb'  # 数据库名字
     }
 }
 

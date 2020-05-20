@@ -96,10 +96,22 @@ excel_to_sql： {"sqlite": datetime('now','localtime'), "sql":now()}
 ```text
 django.core.validators  on model level
 ```  
+##第八天
+###上线测试
+```text
+分离 settings 文件： local and online
+docker-compose -f online.yml build
+docker-compose -f online.yml up
+```
 ##第九天 
 ### 用户注册功能和序列化  
 ```text
 增加“短信验证码”数据模型
 SmsCodeSerializer
 AccountRegSerializer  
+```  
+##第十天 
+### 目录结构和配置文件随部署方式的调整 
+```text
+配置文件保留原样！各种部署方式自带配置文件！ 
 ```  

@@ -4,7 +4,7 @@ from rest_framework import viewsets, status
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.response import Response
 
-from dyezweb.settings.common import APIKEY
+from dyezweb.settings import APIKEY
 from utils.yunpian import YunPian
 from .models import Account, SmsCode
 from .serializers import SmsCodeSerializer, AccountRegSerializer

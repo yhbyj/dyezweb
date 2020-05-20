@@ -16,9 +16,11 @@ WORKDIR /app
 # .dockerignore 文件里面指定的文件不会被 copy 到容器里。
 COPY . /app
 
-RUN pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple
+COPY ._deployment/docker/local/django/requirements.txt /requirements.txt
 
-COPY ._deployment/docker/online/django/start.sh /start.sh
+RUN pip install -r /requirements.txt -i https://mirrors.aliyun.com/pypi/simple
+
+COPY ._deployment/docker/local/django/start.sh /start.sh
 
 RUN sed -i 's/\r//' /start.sh
 
