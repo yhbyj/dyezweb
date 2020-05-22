@@ -2,3 +2,4 @@
 /_deployment/legacy/online/settings.py
 /_deployment/docker/local/django/settings.py
 /_deployment/docker/online/django/settings.py
+/*.sqlite3
