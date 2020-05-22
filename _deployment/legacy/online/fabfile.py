@@ -3,24 +3,8 @@ __author__ = 'Yang Haibo'
 __date__ = '2020/5/21 9:51'
 
 from fabric import Connection
-from invoke import Responder
 
 from _credentials import *
-
-
-def _get_github_auth_responders():
-    """
-    返回 GitHub 用户名密码自动填充器
-    """
-    username_responder = Responder(
-        pattern="Username for 'https://github.com':",
-        response='{}\n'.format(GITHUB_USERNAME)
-    )
-    password_responder = Responder(
-        pattern="Password for 'https://{}@github.com':".format(GITHUB_USERNAME),
-        response='{}\n'.format(GITHUB_PASSWORD)
-    )
-    return [username_responder, password_responder]
 
 
 def deploy(c):
@@ -35,9 +19,7 @@ def deploy(c):
         c.run(cmd)
 
     with c.cd(project_root_path):
-        cmd = 'git pull'
-        responders = _get_github_auth_responders()
-        c.run(cmd, watchers=responders)
+        c.run('git pull')
         c.run('cp _deployment/legacy/online/requirements_extra.txt ./')
 
     # 上传覆盖配置文件
