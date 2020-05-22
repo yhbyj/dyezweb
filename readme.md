@@ -115,3 +115,8 @@ AccountRegSerializer
 ```text
 配置文件保留原样！各种部署方式自带配置文件！ 
 ```  
+##第十一天 
+### 自动化部署（legacy online）
+```text
+_deployment/legacy/online/fabfile.py
+``` 

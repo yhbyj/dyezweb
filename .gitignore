@@ -1,2 +1,2 @@
-/.credentials.py
-/venv/
+/_deployment/legacy/online/_credentials.py
+/_deployment/legacy/online/settings.py
