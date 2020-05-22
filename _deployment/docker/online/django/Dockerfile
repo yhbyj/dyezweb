@@ -14,13 +14,13 @@ WORKDIR /projects
 
 RUN git clone https://gitee.com/zjdyez/dyezweb.git
 
-# 配置文件里面有不能外泄的密钥，所以没有提交到 gitee 上，只能本地拷贝！
-COPY ._deployment/docker/local/django/settings.py  dyezweb/dyezweb/
+RUN cp dyezweb/_deployment/docker/local/django/settings.py dyezweb/dyezweb/
 
 RUN pip install -r /projects/dyezweb/requirements.txt -i https://mirrors.aliyun.com/pypi/simple
 
 RUN pip install -r /projects/dyezweb/_deployment/docker/local/django/requirements_extra.txt -i https://mirrors.aliyun.com/pypi/simple
 
+COPY ._deployment/docker/local/django/start.sh /start.sh
 
 RUN sed -i 's/\r//' /projects/dyezweb/_deployment/docker/local/django/start.sh
 

@@ -7,6 +7,7 @@ requirements_extra.txt  pip 安装时的附加包信息。
 ##传统部署方式(legacy)
 ###local 
 ###online 
+####第一次，手工部署
 查看系统环境  
 ```text
 [root@localhost ~]# cat /etc/redhat-release   
@@ -53,16 +54,17 @@ sudo setenforce 0
 [yhb@localhost ~]$ supervisorctl -c ~/etc/supervisord.conf status
 dyezweb                          RUNNING   pid 11772, uptime 0:00:01
 ```
+####第二次开始，自动部署
+_deployment/legacy/online/fabfile.py   
 ##docker部署方式
-###local
-移动并覆盖 settings.py 文件。 
+###local online 
+配置文件按线上标准配置，包含密钥，不提交到 github 或 gitee
 复制 local.yml 文件到项目根目录，并运行：   
 ```commandline
 docker-compose -f local.yml build
 docker-compose -f local.yml up
 ```
-###online
-移动并覆盖 settings.py 文件。 
+###remote online
 复制 online.yml 文件到项目根目录，并运行：  
 ```commandline
 docker stack deploy -c online.yml dyezweb

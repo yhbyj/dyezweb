@@ -1,9 +1,5 @@
 version: '3'
 
-volumes:
-  static:
-  database:
-
 services:
   dyezweb:
     build:
@@ -11,12 +7,7 @@ services:
       dockerfile: _deployment/docker/local/django/Dockerfile
     image: dyezweb
     container_name: dyezweb
-    working_dir: /app
-    volumes:
-      - database:/app/database
-      - static:/app/static
-#    env_file:
-#      - .envs/.online
+    working_dir: /projects/dyezweb
     ports:
       - "8000:8000"
-    command: /start.sh
+    command: /projects/dyezweb/_deployment/docker/local/django/start.sh
