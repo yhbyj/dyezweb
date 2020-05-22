@@ -120,3 +120,13 @@ AccountRegSerializer
 ```text
 _deployment/legacy/online/fabfile.py
 ``` 
+### docker 方式部署（local online）
+```text
+_deployment/docker/local/local.yml
+_deployment/docker/local/django/Dockerfile
+``` 
+复制 local.yml 文件到项目根目录，并运行：   
+```commandline
+docker-compose -f local.yml build
+docker-compose -f local.yml up
+```
