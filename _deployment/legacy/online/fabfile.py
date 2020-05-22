@@ -19,6 +19,8 @@ def deploy(c):
         c.run(cmd)
 
     with c.cd(project_root_path):
+        # 本地库会发生改变，强制合并
+        c.run('git reset --hard')
         c.run('git pull')
         c.run('cp _deployment/legacy/online/requirements_extra.txt ./')
 
