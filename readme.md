@@ -130,3 +130,40 @@ _deployment/docker/local/django/Dockerfile
 docker-compose -f local.yml build
 docker-compose -f local.yml up
 ```
+##第十二天 
+### 第三方认证（social app django）
+```text
+复制 social_core 到 extra_apps下，并修改下面的文件，以支持 drf token 认证。
+extra_apps\social_core\actions.py
+from rest_framework.authtoken.models import Token
+……
+def do_complete(backend, login, user=None, redirect_name='next',
+                *args, **kwargs):
+……
+    return backend.strategy.redirect(url)
+    '''
+    response = backend.strategy.redirect(url)
+    token = Token.objects.get(user_id=user.id)
+    response.set_cookies('name', user.username, max_age=24*3600)
+    response.set_cookies('token', token.key, max_age=24*3600)
+    return response
+    '''
+``` 
+### 错误日志收集和管理（sentry）
+```text
+在docker desktop中搭建失败：
+git clone https://github.com/getsentry/onpremise.git
+cd onpremise
+./install.sh
+……
+FAIL: Cannot read credentials back from relay/credentials.json.
+      Please ensure this file is readable and contains valid credentials.
+
+docker destop 回复出厂设置，git 发行版，成功！
+git clone -b releases/9.1.x https://github.com/getsentry/onpremise.git
+cd onpremise
+./install.sh
+……
+docker-compose up -d
+访问9000端口！
+``` 

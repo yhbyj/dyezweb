@@ -47,4 +47,14 @@ urlpatterns = [
     # 通过post方式提交json数据 {"username": "yhb","password": "123"}, 获得token
     # 测试软件： postman
     path('api-token-auth/', views.obtain_auth_token),
+
+    # 第三方登录
+    # 请求URL构造为：http://域名或者ip/login/使用模块名称小写/
+    # 如：http://127.0.0.1:8000/login/weibo/
+    # 回调URL构造为：http://域名或者ip/complete/使用模块名称小写/
+    # 如：http://127.0.0.1:8000/complete/weibo/
+    # 回调URL一般需要设置到开放平台的后台
+    # 前台页面可以调用，请求url
+    # <a href="{% url "social:begin" "weibo" %}">微博登录</a>
+    path('', include('social_django.urls', namespace='social'))
 ]

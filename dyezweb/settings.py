@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'DjangoUeditor',  # 富文本编辑器
     'guardians',  # 监护人模块
     'accounts',   # 账户模块（自定义用户模块）
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -81,6 +82,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 第三方登录，配置这里，当用户登录的时候，如果用户不存在，会自动在用户表创建用户，并且关联用户信息
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -170,3 +174,24 @@ APIKEY = ''
 
 # 手机号码正则表达式
 REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
+
+
+# 设置要使用的第三方登录
+# 设置自定义登录：邮箱和用户名和手机号均可登录
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.weibo.WeiboOAuth2',
+    'social_core.backends.qq.QQOAuth2',
+    'social_core.backends.weixin.WeixinOAuth2',
+    # 'users.views.CustomBackend',
+    'accounts.views.CustomBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+# 配置微博开放平台授权
+# SOCIAL_AUTH_要使用登录模块的名称_KEY，其他如QQ相同
+SOCIAL_AUTH_WEIBO_KEY = '478178675'
+SOCIAL_AUTH_WEIBO_SECRET = '78a7e4529bd716e36ad12f1680d426fc'
+
+# 登录成功后跳转页面
+# SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/index/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/accounts'

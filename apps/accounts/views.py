@@ -1,5 +1,7 @@
 from random import choice
 
+from django.contrib.auth.backends import ModelBackend
+from django.db.models import Q
 from rest_framework import viewsets, status
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.response import Response
@@ -8,6 +10,25 @@ from dyezweb.settings import APIKEY
 from utils.yunpian import YunPian
 from .models import Account, SmsCode
 from .serializers import SmsCodeSerializer, AccountRegSerializer
+
+
+class CustomBackend(ModelBackend):
+    """
+    自定义用户账户验证规则
+    """
+    def authenticate(self, username=None, password=None, **kwargs):
+        try:
+            # 不希望用户存在两个，get只能有一个。两个是get失败的一种原因
+            # 后期可以添加邮箱验证
+            account = Account.objects.get(
+                Q(username=username) | Q(mobile=username))
+            # django的后台中密码加密：所以不能password==password
+            # UserProfile继承的AbstractUser中有def check_password(self,
+            # raw_password):
+            if account.check_password(password):
+                return account
+        except Exception as e:
+            return None
 
 
 # Create your views here.
