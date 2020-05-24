@@ -57,6 +57,8 @@ INSTALLED_APPS = [
     'guardians',  # 监护人模块
     'accounts',   # 账户模块（自定义用户模块）
     'social_django',
+    'three_competitions',  # 三项竞赛模块
+    'dorms',  # 寝室管理模块
 ]
 
 MIDDLEWARE = [

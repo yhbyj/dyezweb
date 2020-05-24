@@ -167,3 +167,8 @@ cd onpremise
 docker-compose up -d
 访问9000端口！
 ``` 
+##第十三天 
+### 三项竞赛（卫生、纪律和文礼）
+```text
+完成“寝室竞赛”：DormitoryCompetition
+``` 
