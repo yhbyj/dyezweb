@@ -172,3 +172,13 @@ docker-compose up -d
 ```text
 完成“寝室竞赛”：DormitoryCompetition
 ``` 
+##第十四天 
+### TDD & docker & Travis CI  
+所有的数据模型类都在 core app 中  
+```commandline
+docker-compose run --rm dyezweb sh -c "python manage.py startapp core"
+docker-compose up
+``` 
+```text
+
+```

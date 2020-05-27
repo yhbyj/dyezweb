@@ -39,26 +39,28 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'xadmin',  # 后台管理模块
-    # 'crispy-forms', # OSError: [WinError 123] 文件名、目录名或卷标语法不正确
-    # together with xadmin
-    'crispy_forms',
-    'django_filters',
     'rest_framework',  # drf 框架
     'rest_framework.authtoken',
+    'core',  # 核心模块
+    'users',  # 自定义用户模块
     'students',  # 学生模块
     'clazzs',  # 班级模块 (避开关键字class)
     'majors',  # 专业模块
-    'services',  # 服务模块
+    # 'services',  # 服务模块
     'areas',   # 省市区模块
     'admissions',   # 网上入学报名模块
-    # 'tinymce',  # 富文本编辑器
-    'DjangoUeditor',  # 富文本编辑器
     'guardians',  # 监护人模块
-    'accounts',   # 账户模块（自定义用户模块）
-    'social_django',
+    # 'accounts',   # 账户模块（自定义用户模块）
     'three_competitions',  # 三项竞赛模块
     'dorms',  # 寝室管理模块
+    # 'xadmin',  # 后台管理模块
+    # 'crispy-forms', # OSError: [WinError 123] 文件名、目录名或卷标语法不正确
+    # together with xadmin
+    # 'crispy_forms',
+    # 'django_filters',
+    # 'tinymce',  # 富文本编辑器
+    # 'DjangoUeditor',  # 富文本编辑器
+    # 'social_django',
 ]
 
 MIDDLEWARE = [
@@ -85,8 +87,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 # 第三方登录，配置这里，当用户登录的时候，如果用户不存在，会自动在用户表创建用户，并且关联用户信息
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
+                # 'social_django.context_processors.backends',
+                # 'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -100,9 +102,11 @@ WSGI_APPLICATION = 'dyezweb.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),  # for branch:user_inlined
-        'NAME': os.path.join(BASE_DIR, 'db.master.sqlite3'),  # for branch:master
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': os.environ.get('DB_HOST'),
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASS'),
     }
 }
 
@@ -154,9 +158,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ],
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    # ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
@@ -168,8 +172,7 @@ REST_FRAMEWORK = {
 }
 
 # 修改Django认证系统中的用户模型
-# AUTH_USER_MODEL = 'users.User'  # 应用名称.模型类名称
-AUTH_USER_MODEL = 'accounts.Account'  # 应用名称.模型类名称
+AUTH_USER_MODEL = 'core.User'  # 应用名称.模型类名称
 
 # 云片网设置
 APIKEY = ''
@@ -180,20 +183,20 @@ REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
 
 # 设置要使用的第三方登录
 # 设置自定义登录：邮箱和用户名和手机号均可登录
-AUTHENTICATION_BACKENDS = (
-    'social_core.backends.weibo.WeiboOAuth2',
-    'social_core.backends.qq.QQOAuth2',
-    'social_core.backends.weixin.WeixinOAuth2',
-    # 'users.views.CustomBackend',
-    'accounts.views.CustomBackend',
-    'django.contrib.auth.backends.ModelBackend',
-)
+# AUTHENTICATION_BACKENDS = (
+#     'social_core.backends.weibo.WeiboOAuth2',
+#     'social_core.backends.qq.QQOAuth2',
+#     'social_core.backends.weixin.WeixinOAuth2',
+#     # 'users.views.CustomBackend',
+#     'accounts.views.CustomBackend',
+#     'django.contrib.auth.backends.ModelBackend',
+# )
 
 # 配置微博开放平台授权
 # SOCIAL_AUTH_要使用登录模块的名称_KEY，其他如QQ相同
-SOCIAL_AUTH_WEIBO_KEY = '478178675'
-SOCIAL_AUTH_WEIBO_SECRET = '78a7e4529bd716e36ad12f1680d426fc'
+# SOCIAL_AUTH_WEIBO_KEY = '478178675'
+# SOCIAL_AUTH_WEIBO_SECRET = '78a7e4529bd716e36ad12f1680d426fc'
 
 # 登录成功后跳转页面
 # SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/index/'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/accounts'
+# SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/accounts'
