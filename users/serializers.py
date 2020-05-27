@@ -20,6 +20,17 @@ class UserSerializer(serializers.ModelSerializer):
         """创建一个带加密密码的新用户并返回"""
         return get_user_model().objects.create_user(**validated_data)
 
+    def update(self, instance, validated_data):
+        """更新用户，密码设置正确，并返回用户"""
+        password = validated_data.pop('password', None)
+        user = super().update(instance, validated_data)
+
+        if password:
+            user.set_password(password)
+            user.save()
+
+        return  user
+
 
 class AuthTokenSerializer(serializers.Serializer):
     """令牌对象序列化"""
