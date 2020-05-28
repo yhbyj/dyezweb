@@ -180,5 +180,5 @@ docker-compose run --rm dyezweb sh -c "python manage.py startapp core"
 docker-compose up
 ``` 
 ```text
-Added endpoit for creating users
+Added endpoint for creating users
 ```
