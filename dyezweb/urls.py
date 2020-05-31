@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path, include
 from django.contrib import admin
 from rest_framework import routers
@@ -47,8 +49,8 @@ urlpatterns = [
     path('api-token-auth/', views.obtain_auth_token),
 
     # endpoints for all apps
-    path('api-user/', include('user.urls')),
-    path('api-recipe/', include('recipe.urls')),
+    path('api/user/', include('user.urls')),
+    path('api/recipe/', include('recipe.urls')),
 
     # 富文本相关url
     path('ueditor/', include('DjangoUeditor.urls')),
@@ -62,4 +64,5 @@ urlpatterns = [
     # 前台页面可以调用，请求url
     # <a href="{% url "social:begin" "weibo" %}">微博登录</a>
     path('', include('social_django.urls', namespace='social')),
-]
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

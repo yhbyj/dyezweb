@@ -4,9 +4,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext as _
 
-from .models import User, SmsCode, Tag, Student, MajorCategory, Major, Admission, AdmissionMajor, \
-    Dormitory, Guardian, GuardianAddress, ThreeCompetitionRule, ThreeCompetitionRuleCategory as Tcrc, \
-    DormitoryCompetition, ThreeCompetitionRuleOption
+from core import models
 
 
 class UserAdmin(BaseUserAdmin):
@@ -113,8 +111,6 @@ class MajorAdmin(admin.ModelAdmin):
     """
     专业类模型管理
     """
-
-
     # def bottom_category(self, obj):
     #     """
     #     获取末级专业类别（即二级类别）数据
@@ -140,7 +136,7 @@ class AdmissionMajorInline(admin.TabularInline):
     入学申请和专业内联类
         Working with many-to-many intermediary models
     """
-    model = AdmissionMajor
+    model = models.AdmissionMajor
     extra = 1
 
 
@@ -209,7 +205,7 @@ class DormitoryAdmin(admin.ModelAdmin):
     fields = ['building', 'short_code', 'name', 'beds', 'with_bathroom']
 
 
-class TcrcAdmin(admin.ModelAdmin):
+class ThreeCompetitionRuleCategoryAdmin(admin.ModelAdmin):
     """
     三项竞赛评分细则类别模型管理
     """
@@ -224,6 +220,7 @@ class TcrcAdmin(admin.ModelAdmin):
     radio_fields = {"category_type": admin.HORIZONTAL}
 
 
+# class TopThreeCompetitionRuleCategoryListFilter(admin.SimpleListFilter):
 class TopTcrcListFilter(admin.SimpleListFilter):
     """
     三项竞赛评分细则类别列表筛选类
@@ -270,7 +267,7 @@ class ThreeCompetitionRuleOptionInline(admin.TabularInline):
     """
     三项竞赛评分细则和选项内联类
     """
-    model = ThreeCompetitionRuleOption
+    model = models.ThreeCompetitionRuleOption
     extra = 1
 
 
@@ -307,14 +304,16 @@ class DormitoryCompetitionAdmin(admin.ModelAdmin):
 admin.site.site_header = '中职信息管理系统-后台'
 admin.site.site_title = '中职信息管理系统-后台'
 
-admin.site.register(User, UserAdmin)
-admin.site.register(SmsCode, SmsCodeAdmin)
-admin.site.register(Tag)
-admin.site.register(Student, StudentAdmin)
-admin.site.register(MajorCategory, MajorCategoryAdmin)
-admin.site.register(Major, MajorAdmin)
-admin.site.register(Admission, AdmissionAdmin)
-admin.site.register(Dormitory, DormitoryAdmin)
-admin.site.register(Tcrc, TcrcAdmin)
-admin.site.register(ThreeCompetitionRule, ThreeCompetitionRuleAdmin)
-admin.site.register(DormitoryCompetition, DormitoryCompetitionAdmin)
+admin.site.register(models.User, UserAdmin)
+admin.site.register(models.Tag)
+admin.site.register(models.Ingredient)
+admin.site.register(models.Recipe)
+admin.site.register(models.SmsCode, SmsCodeAdmin)
+admin.site.register(models.Student, StudentAdmin)
+admin.site.register(models.MajorCategory, MajorCategoryAdmin)
+admin.site.register(models.Major, MajorAdmin)
+admin.site.register(models.Admission, AdmissionAdmin)
+admin.site.register(models.Dormitory, DormitoryAdmin)
+admin.site.register(models.ThreeCompetitionRuleCategory, ThreeCompetitionRuleCategoryAdmin)
+admin.site.register(models.ThreeCompetitionRule, ThreeCompetitionRuleAdmin)
+admin.site.register(models.DormitoryCompetition, DormitoryCompetitionAdmin)

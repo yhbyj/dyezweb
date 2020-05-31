@@ -3,6 +3,7 @@ __author__ = 'Yang Haibo'
 __date__ = '2020/5/25 7:26'
 
 from random import choice
+from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -52,7 +53,7 @@ class UserModelTests(TestCase):
         self.assertTrue(user.is_staff)
 
 
-class TagModelTests(UserModelTests):
+class RecipeModelTests(UserModelTests):
 
     def test_tag_str(self):
         """测试：返回标签对象的字符串表示，成功"""
@@ -62,6 +63,37 @@ class TagModelTests(UserModelTests):
         )
 
         self.assertEqual(str(tag), tag.name)
+
+    def test_ingredient_str(self):
+        """Test the ingredient string representation"""
+        ingredient = models.Ingredient.objects.create(
+            user=sample_user(),
+            name='Cucumber'
+        )
+
+        self.assertEqual(str(ingredient), ingredient.name)
+
+    def test_recipe_str(self):
+        """Test the recipe string representation"""
+        recipe = models.Recipe.objects.create(
+            user=sample_user(),
+            title='Steak and mushroom source',
+            time_minutes=5,
+            price=5.00
+        )
+
+        self.assertEqual(str(recipe), recipe.title)
+
+    @patch('uuid.uuid4')
+    def test_recipe_image_field(self, mock_uuid):
+        """Test that images are saved in the correct location"""
+        uuid = 'test-uuid'
+        mock_uuid.return_value = uuid
+        file_path = models.recipe_image_file_path(None, 'myimage.jpg')
+
+        exp_path = f'uploads/recipe/{uuid}.jpg'
+        self.assertEqual(file_path, exp_path)
+
 
 
 class SmsCodeModelTests(TestCase):

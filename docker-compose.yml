@@ -4,18 +4,19 @@ services:
   dyezweb:
     build:
       context: .
-      dockerfile: _deployment/docker/local/django/Dockerfile
+      dockerfile: _deployment/docker/django/Dockerfile
     image: dyezweb
     container_name: dyezweb
-    working_dir: /projects/dyezweb
+    working_dir: /project
     ports:
       - "8000:8000"
     volumes:
-      - "./:/projects/dyezweb"
+      - "./:/project"
     command: >
       sh -c "python manage.py wait_for_db &&
                 python manage.py migrate &&
-                python manage.py runserver 0.0.0.0:8000"
+                python manage.py collectstatic --noinput &&
+                gunicorn dyezweb.wsgi:application -w 4 -k gthread -b 0.0.0.0:8000 --chdir=/project"
     environment:
       - DB_HOST=postgres_db
       - DB_NAME=dyezweb
@@ -30,3 +31,15 @@ services:
       - POSTGRES_DB=dyezweb
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+
+  nginx:
+    build:
+      context: .
+      dockerfile: _deployment/docker/nginx/Dockerfile
+    image: dyezweb_nginx
+    container_name: dyezweb_nginx
+    volumes:
+      - ./static:/project/static
+    ports:
+      - "80:80"
+      - "443:443"

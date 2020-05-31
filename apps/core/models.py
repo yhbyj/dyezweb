@@ -1,3 +1,6 @@
+import os
+import uuid
+
 from django.contrib.auth.base_user import BaseUserManager, AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.core.validators import RegexValidator
@@ -8,6 +11,13 @@ from django.utils import timezone
 
 from utils.db.base_model import BaseModel
 from utils.db.validation import check_id_card_no
+
+
+def recipe_image_file_path(instance, filename):
+    """Generate file path for new recipe image"""
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+    return os.path.join('uploads/recipe/', filename)
 
 
 class UserManager(BaseUserManager):
@@ -53,6 +63,48 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = verbose_name
 
 
+class Tag(models.Model):
+    """Tag to be used for a recipe"""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
+class Ingredient(models.Model):
+    """Ingredient to be used for a recipe"""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
+class Recipe(models.Model):
+    """Recipe object"""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    title = models.CharField(max_length=255)
+    time_minutes = models.IntegerField()
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+    link = models.CharField(max_length=255, blank=True)
+    ingredients = models.ManyToManyField('Ingredient')
+    tags = models.ManyToManyField('Tag')
+    image = models.ImageField(null=True, upload_to=recipe_image_file_path)
+
+    def __str__(self):
+        return self.title
+
+
 class SmsCode(models.Model):
     """
     短信验证码类
@@ -67,23 +119,6 @@ class SmsCode(models.Model):
 
     def __str__(self):
         return self.code
-
-
-class Tag(models.Model):
-    """标签类"""
-    name = models.CharField(max_length=255, verbose_name='名称')
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        verbose_name='用户'
-    )
-
-    class Meta:
-        verbose_name = '标签'
-        verbose_name_plural = verbose_name
-
-    def __str__(self):
-        return self.name
 
 
 class Student(BaseModel):

@@ -1,18 +1,19 @@
 # _*_ coding: utf-8 _*_
 __author__ = 'Yang Haibo'
-__date__ = '2020/5/26 21:45'
+__date__ = '2020/5/29 10:13'
 
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from recipe import views
-
+from recipe.views import TagViewSet, IngredientViewSet, RecipeViewSet
 
 router = DefaultRouter()
-router.register('tags', views.TagViewSet)
+router.register('tags', TagViewSet)
+router.register('ingredients', IngredientViewSet)
+router.register('recipes', RecipeViewSet)
 
 app_name = 'recipe'
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', include(router.urls))
 ]

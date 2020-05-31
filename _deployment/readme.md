@@ -1,5 +1,5 @@
 #应用部署（_deployment）手册
-有多种部署方式，每种部署方式又分为本地(local)和线上(online)。  
+部署方式：传统方式部署（legacy）、docker方式部署等。  
 本地环境一般是 windows系统  
 线上环境一般是 linux系统  
 requirements_extra.txt  pip 安装时的附加包信息。

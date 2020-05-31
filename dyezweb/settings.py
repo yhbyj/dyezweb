@@ -16,6 +16,7 @@ import sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 新增apps, extra_apps等python包
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
+
 sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 
 
@@ -44,11 +45,11 @@ INSTALLED_APPS = [
     'django_filters',
     'core',  # 核心模块
     'user',  # 自定义用户模块
+    'recipe',  # from londonappdeveloper
     'student',  # 学生模块
     'teacher',  # 教师模块
     'course',  # 课程模块
     'department',  # 部门模块
-    'recipe',  # recipe 模块
     # 'services',  # 服务模块
     # 第三方模块
     'areas',   # 省市区模块
@@ -146,9 +147,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 MEDIA_URL = "/media/"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
@@ -189,8 +192,10 @@ AUTHENTICATION_BACKENDS = (
 # 配置微博开放平台授权
 # SOCIAL_AUTH_要使用登录模块的名称_KEY，其他如QQ相同
 SOCIAL_AUTH_WEIBO_KEY = '478178675'
+
 SOCIAL_AUTH_WEIBO_SECRET = '78a7e4529bd716e36ad12f1680d426fc'
 
 # 登录成功后跳转页面
 # SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/index/'
+
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/areas'

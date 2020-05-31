@@ -177,8 +177,26 @@ docker-compose up -d
 所有的数据模型类都在 core app 中  
 ```commandline
 docker-compose run --rm dyezweb sh -c "python manage.py startapp core"
+docker-compose run --rm dyezweb sh -c "python manage.py makemigrations core"
+docker-compose build
 docker-compose up
 ``` 
 ```text
 Added endpoint for creating users
 ```
+##第十五天 
+### 统一docker部署  
+```text
+不分本地和远程
+增加远程自动化迭代部署
+第一次远程部署
+git clone https://gitee.com/zjdyez/dyezweb.git
+docker-compose build
+docker-compose up
+第N次远程部署
+docker-compose down
+git pull
+docker-compose build
+docker-compose up
+```
+### 增加对 image 字段的支持  
