@@ -9,6 +9,7 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
 
+from core.models import SmsCode
 
 CREATE_USER_URL = reverse('user:create')
 TOKEN_URL = reverse('user:token')
@@ -27,10 +28,12 @@ class PublicUserApiTests(TestCase):
 
     def test_create_user_successful(self):
         """测试：传递有效负载创建用户，成功"""
+        mobile = '15257911111'
+        sms_code = SmsCode.objects.create(mobile=mobile, code='1234')
         payload = {
-            'mobile': '15257999999',
+            'mobile': mobile,
             'password': '123456',
-            'code': '1234'
+            'code': sms_code.code
         }
         res = self.client.post(CREATE_USER_URL, payload)
 
@@ -41,7 +44,7 @@ class PublicUserApiTests(TestCase):
 
     def test_user_exists(self):
         """测试：创建的用户已经存在"""
-        payload = {'mobile': '15257999999', 'password': '123456'}
+        payload = {'mobile': '15257911111', 'password': '123456'}
         create_user(**payload)
         res = self.client.post(CREATE_USER_URL, payload)
 
@@ -49,7 +52,7 @@ class PublicUserApiTests(TestCase):
 
     def test_password_too_short(self):
         """测试：密码必须大于5个字符"""
-        payload = {'mobile': '15257999999', 'password': 'pw'}
+        payload = {'mobile': '15257911111', 'password': 'pw'}
         res = self.client.post(CREATE_USER_URL, payload)
 
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
@@ -60,7 +63,7 @@ class PublicUserApiTests(TestCase):
 
     def test_create_token_for_user(self):
         """测试：为用户创建令牌，成功"""
-        payload = {'mobile': '15257999999', 'password': '123456'}
+        payload = {'mobile': '15257911111', 'password': '123456'}
         create_user(**payload)
         res = self.client.post(TOKEN_URL, payload)
 
@@ -69,8 +72,8 @@ class PublicUserApiTests(TestCase):
 
     def test_create_token_invalid_credentials(self):
         """测试：如果用户提供无效身份验证信息，创建令牌，失败"""
-        create_user(mobile='15257999999', password='123456')
-        payload = {'mobile': '15257999999', 'password': 'wrong'}
+        create_user(mobile='15257911111', password='123456')
+        payload = {'mobile': '15257911111', 'password': 'wrong'}
         res = self.client.post(TOKEN_URL, payload)
 
         self.assertNotIn('token', res.data)
@@ -78,7 +81,7 @@ class PublicUserApiTests(TestCase):
 
     def test_create_token_no_user(self):
         """测试：如果用户不存在，创建令牌，失败"""
-        payload = {'mobile': '15257999999', 'password': '123456'}
+        payload = {'mobile': '15257911111', 'password': '123456'}
         res = self.client.post(TOKEN_URL, payload)
 
         self.assertNotIn('token', res.data)
@@ -86,7 +89,7 @@ class PublicUserApiTests(TestCase):
 
     def test_create_token_missing_field(self):
         """测试：如果密码为空，创建令牌，失败"""
-        payload = {'mobile': '15257999999', 'password': ''}
+        payload = {'mobile': '15257911111', 'password': ''}
         res = self.client.post(TOKEN_URL, payload)
 
         self.assertNotIn('token', res.data)
@@ -104,9 +107,8 @@ class PrivateUserApiTests(TestCase):
 
     def setUp(self) -> None:
         self.user = create_user(
-            mobile='15257999999',
+            mobile='15257911111',
             password='123456',
-            name='测试用户'
         )
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
@@ -117,7 +119,6 @@ class PrivateUserApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, {
-            'name': self.user.name,
             'mobile': self.user.mobile
         })
 
@@ -127,14 +128,11 @@ class PrivateUserApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    def test_update_userprofile_successful(self):
+    def test_update_user_profile_successful(self):
         """测试：已登录用户，更新用户信息，成功"""
-        payload = {'name': '新用户名', 'password': 'newpass'}
+        payload = {'password': 'newpass'}
         res = self.client.patch(ME_URL, payload)
 
         self.user.refresh_from_db()
-        self.assertEqual(self.user.name, payload['name'])
         self.assertTrue(self.user.check_password(payload['password']))
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-
-

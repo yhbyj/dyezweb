@@ -200,3 +200,11 @@ docker-compose build
 docker-compose up
 ```
 ### 增加对 image 字段的支持  
+##第十六天 
+### 对先前已经编好的代码进行测试
+```commandline
+ docker-compose run dyezweb sh -c "python manage.py test core && flake8 apps/core"
+ docker-compose run dyezweb sh -c "python manage.py test user && flake8 apps/user"
+ docker-compose run dyezweb sh -c "python manage.py test recipe && flake8 apps/recipe"
+ docker-compose run dyezweb sh -c "python manage.py test student && flake8 apps/student"
+```  

@@ -5,6 +5,8 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext as _
 
 from core import models
+from core.models import MajorCategory, AdmissionMajor, \
+    ThreeCompetitionRuleCategory as Tcrc
 
 
 class UserAdmin(BaseUserAdmin):
@@ -70,7 +72,8 @@ class TopMajorCategoryListFilter(admin.SimpleListFilter):
         in the right sidebar.
         """
         # 获得一级专业类别的数据
-        rs = set([c for c in MajorCategory.objects.filter(category_type=1)])
+        rs = set([c for c in MajorCategory.objects.filter(
+            category_type=1)])
         v = set()
         for obj in rs:
             if obj is not None:
@@ -87,7 +90,8 @@ class TopMajorCategoryListFilter(admin.SimpleListFilter):
         # to decide how to filter the queryset.
         if 'top_category_id_exact' in request.GET:
             top_category_id = request.GET['top_category_id_exact']
-            return queryset.filter(category__parent_category_id=top_category_id)
+            return queryset.filter(
+                category__parent_category_id=top_category_id)
         else:
             return queryset.all()
 
@@ -122,9 +126,11 @@ class MajorAdmin(admin.ModelAdmin):
     # bottom_category = MajorCategory.objects.filter(category_type=2)
 
     # change list page options
-    list_display = ['short_code', 'name', 'category', 'status', 'create_time', 'update_time', 'is_delete', 'code']
+    list_display = ['short_code', 'name', 'category', 'status',
+                    'create_time', 'update_time', 'is_delete', 'code']
     list_display_links = ['name']
-    list_filter = [TopMajorCategoryListFilter, 'status', 'create_time', 'update_time', 'is_delete']
+    list_filter = [TopMajorCategoryListFilter, 'status', 'create_time',
+                   'update_time', 'is_delete']
     list_editable = ['status']
 
     # control the layout of admin “add” and “change” pages
@@ -150,7 +156,8 @@ class AdmissionAdmin(admin.ModelAdmin):
         :param obj:
         :return:
         """
-        return [a.major for a in AdmissionMajor.objects.fiter(admission=obj.id)]
+        return [a.major for a in AdmissionMajor.objects.fiter(
+            admission=obj.id)]
 
     # 默认位置在最下方,如何调整位置?
     inlines = [AdmissionMajorInline]
@@ -159,37 +166,46 @@ class AdmissionAdmin(admin.ModelAdmin):
     date_hierarchy = 'create_time'
     empty_value_display = '-空-'
     # The value of 'list_display[12]' must not be a ManyToManyField ('majors').
-    list_display = ['name', 'sex', 'hukou', 'nationality', 'native_place', 'id_card_no', 'political_status',
-                    'health_status', 'origin', 'parent_name', 'graduate_school', 'position',
-                    'user', 'filler', 'adviser', 'address', 'zip_code', 'mobile', 'telephone_number',
-                    'create_time', 'update_time', 'is_delete',
-                    'confirmed', 'confirmed_with', 'confirmed_by', 'confirmed_on', 'memo']
+    list_display = ['name', 'sex', 'hukou', 'nationality', 'native_place',
+                    'id_card_no', 'political_status', 'health_status',
+                    'origin', 'parent_name', 'graduate_school', 'position',
+                    'user', 'filler', 'adviser', 'address', 'zip_code',
+                    'mobile', 'telephone_number', 'create_time',
+                    'update_time', 'is_delete', 'confirmed',
+                    'confirmed_with', 'confirmed_by', 'confirmed_on', 'memo']
     list_filter = ['sex', 'hukou', 'political_status', 'health_status',
                    'origin', 'adviser', 'zip_code', 'majors',
                    'create_time', 'update_time', 'is_delete', 'confirmed']
-    search_fields = ['name', 'nationality', 'graduate_school', 'id_card_no', 'mobile', 'majors']
+    search_fields = ['name', 'nationality', 'graduate_school',
+                     'id_card_no', 'mobile', 'majors']
     list_editable = ['id_card_no', 'is_delete', 'confirmed']
 
     # control the layout of admin “add” and “change” pages
     readonly_fields = ['create_time', 'update_time']
-    radio_fields =  {"sex": admin.HORIZONTAL, "hukou": admin.HORIZONTAL,
-                     "political_status": admin.HORIZONTAL, "health_status": admin.HORIZONTAL,
-                     "origin": admin.HORIZONTAL}
+    radio_fields = {"sex": admin.HORIZONTAL,
+                    "hukou": admin.HORIZONTAL,
+                    "political_status": admin.HORIZONTAL,
+                    "health_status": admin.HORIZONTAL,
+                    "origin": admin.HORIZONTAL
+                    }
     fieldsets = (
         (None, {
-            'fields': (('name', 'sex', 'hukou', 'nationality', 'native_place'), 'id_card_no',
+            'fields': (('name', 'sex', 'hukou',
+                        'nationality', 'native_place'),
+                       'id_card_no',
                        ('political_status', 'health_status', 'origin'),
-                       ('parent_name', 'address', 'zip_code', 'mobile', 'telephone_number'),
+                       ('parent_name', 'address', 'zip_code',
+                        'mobile', 'telephone_number'),
                        ('graduate_school', 'position'),
-                       ('user', 'filler', 'create_time', 'update_time', 'is_delete'))
+                       ('user', 'filler', 'create_time',
+                        'update_time', 'is_delete'))
         }),
         ('以下内容由学校填写', {
             'classes': ('wide', 'extrapretty'),
-            'fields': (('confirmed', 'confirmed_by', 'confirmed_on'), 'confirmed_with', 'memo'),
+            'fields': (('confirmed', 'confirmed_by', 'confirmed_on'),
+                       'confirmed_with', 'memo'),
         }),
     )
-
-    # form = AdmissionAdminForm
 
 
 class DormitoryAdmin(admin.ModelAdmin):
@@ -258,7 +274,8 @@ class TopTcrcListFilter(admin.SimpleListFilter):
         # to decide how to filter the queryset.
         if 'top_category_id_exact' in request.GET:
             top_category_id = request.GET['top_category_id_exact']
-            return queryset.filter(category__parent_category_id=top_category_id)
+            return queryset.filter(
+                category__parent_category_id=top_category_id)
         else:
             return queryset.all()
 
@@ -278,9 +295,11 @@ class ThreeCompetitionRuleAdmin(admin.ModelAdmin):
     inlines = [ThreeCompetitionRuleOptionInline]
 
     # change list page options
-    list_display = ['name', 'category', 'create_time', 'update_time', 'is_delete', 'code']
+    list_display = ['name', 'category', 'create_time',
+                    'update_time', 'is_delete', 'code']
     list_display_links = ['name']
-    list_filter = [TopTcrcListFilter, 'create_time', 'update_time', 'is_delete']
+    list_filter = [TopTcrcListFilter, 'create_time',
+                   'update_time', 'is_delete']
 
     # control the layout of admin “add” and “change” pages
     fields = ['category', 'name', 'code', 'desc', 'min', 'max']
@@ -310,10 +329,14 @@ admin.site.register(models.Ingredient)
 admin.site.register(models.Recipe)
 admin.site.register(models.SmsCode, SmsCodeAdmin)
 admin.site.register(models.Student, StudentAdmin)
-admin.site.register(models.MajorCategory, MajorCategoryAdmin)
+admin.site.register(models.MajorCategory,
+                    MajorCategoryAdmin)
 admin.site.register(models.Major, MajorAdmin)
 admin.site.register(models.Admission, AdmissionAdmin)
 admin.site.register(models.Dormitory, DormitoryAdmin)
-admin.site.register(models.ThreeCompetitionRuleCategory, ThreeCompetitionRuleCategoryAdmin)
-admin.site.register(models.ThreeCompetitionRule, ThreeCompetitionRuleAdmin)
-admin.site.register(models.DormitoryCompetition, DormitoryCompetitionAdmin)
+admin.site.register(models.ThreeCompetitionRuleCategory,
+                    ThreeCompetitionRuleCategoryAdmin)
+admin.site.register(models.ThreeCompetitionRule,
+                    ThreeCompetitionRuleAdmin)
+admin.site.register(models.DormitoryCompetition,
+                    DormitoryCompetitionAdmin)

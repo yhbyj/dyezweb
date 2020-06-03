@@ -51,6 +51,7 @@ urlpatterns = [
     # endpoints for all apps
     path('api/user/', include('user.urls')),
     path('api/recipe/', include('recipe.urls')),
+    path('api/student/', include('student.urls')),
 
     # 富文本相关url
     path('ueditor/', include('DjangoUeditor.urls')),

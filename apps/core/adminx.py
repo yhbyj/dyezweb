@@ -40,4 +40,3 @@ xadmin.site.register(views.BaseAdminView, BaseSetting)
 xadmin.site.unregister(User)
 xadmin.site.register(User)
 xadmin.site.register(Area, AreaAdmin)
-

@@ -9,9 +9,6 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
 
-from core.models import SmsCode
-from user.serializers import SmsCodeSerializer
-
 
 def create_user(**kwargs):
     return get_user_model().objects.create_user(**kwargs)
@@ -28,35 +25,27 @@ class PublicSmsCodeApiTests(TestCase):
 
     def test_create_sms_code_successful(self):
         """测试：创建短信验证码，成功"""
-        payload = {'mobile': '15257999999'}
-        # code = '1234'
+        payload = {'mobile': '15257911111'}
 
         res = self.client.post(SMS_CODES_URL, payload)
 
-        # 无法测试，验证码是随机生成的
-        # exists = SmsCode.objects.filter(
-        #     mobile=payload['mobile'],
-        #     code=code
-        # ).exists()
-
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-        # self.assertTrue(exists)
 
     def test_create_sms_code_invalid(self):
         """测试：通过无效负载创建短信验证码，失败"""
         payload = {'mobile': ''}
 
         res = self.client.post(SMS_CODES_URL, payload)
-        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_create_sms_code_with_mobile_registered(self):
         """测试：创建短信验证码时，如果手机号码已注册，抛出异常"""
-        mobile = '15257999999'
+        mobile = '15257911111'
         password = '123456'
         create_user(mobile=mobile, password=password)
         payload = {'mobile': mobile}
 
         res = self.client.post(SMS_CODES_URL, payload)
-        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)

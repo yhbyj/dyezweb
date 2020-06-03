@@ -42,16 +42,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',  # drf 框架
     'rest_framework.authtoken',
-    'django_filters',
+    # 自定义模块
     'core',  # 核心模块
     'user',  # 自定义用户模块
-    'recipe',  # from londonappdeveloper
     'student',  # 学生模块
     'teacher',  # 教师模块
     'course',  # 课程模块
     'department',  # 部门模块
     # 'services',  # 服务模块
     # 第三方模块
+    'django_filters',
+    'recipe',  # from londonappdeveloper
     'areas',   # 省市区模块
     'xadmin',  # 后台管理模块
     'crispy_forms',  # (required by xadmin)
@@ -153,22 +154,6 @@ MEDIA_URL = "/media/"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    # ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-    ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 10,
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-}
-
 # 修改Django认证系统中的用户模型
 AUTH_USER_MODEL = 'core.User'  # 应用名称.模型类名称
 
@@ -185,7 +170,6 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.weibo.WeiboOAuth2',
     'social_core.backends.qq.QQOAuth2',
     'social_core.backends.weixin.WeixinOAuth2',
-    # 'user.views.CustomBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -196,6 +180,4 @@ SOCIAL_AUTH_WEIBO_KEY = '478178675'
 SOCIAL_AUTH_WEIBO_SECRET = '78a7e4529bd716e36ad12f1680d426fc'
 
 # 登录成功后跳转页面
-# SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/index/'
-
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/areas'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/areas/'
