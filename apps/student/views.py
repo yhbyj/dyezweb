@@ -28,7 +28,7 @@ class MajorViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.MajorSerializer
 
     def get_queryset(self):
-        """返回所有一级专业类别对象"""
+        """返回所有专业对象"""
         return self.queryset.all().order_by('-id')
 
 
@@ -64,3 +64,65 @@ class AdmissionViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         """创建入学申请"""
         serializer.save(user=self.request.user)
+
+
+class DormitoryViewSet(viewsets.ModelViewSet):
+    """管理数据库中的寝室信息"""
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    queryset = models.Dormitory.objects.all()
+    serializer_class = serializers.DormitorySerializer
+
+    def get_queryset(self):
+        """返回所有寝室对象"""
+        return self.queryset.all().order_by('-id')
+
+
+class ThreeCompetitionRuleCategoryViewSet(viewsets.ModelViewSet):
+    """管理数据库中的三项竞赛评分细则类别信息"""
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    queryset = models.ThreeCompetitionRuleCategory.objects.all()
+    serializer_class = serializers.ThreeCompetitionRuleCategorySerializer
+
+    def get_queryset(self):
+        """返回所有一级三项竞赛评分细则类别对象"""
+        return self.queryset.filter(
+            category_type=1
+        ).order_by('-id')
+
+
+class ThreeCompetitionRuleViewSet(viewsets.ModelViewSet):
+    """管理数据库中的三项竞赛评分细则信息"""
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    queryset = models.ThreeCompetitionRule.objects.all()
+    serializer_class = serializers.ThreeCompetitionRuleSerializer
+
+    def get_queryset(self):
+        """返回所有三项竞赛评分细则对象"""
+        return self.queryset.all().order_by('-id')
+
+
+class ThreeCompetitionRuleOptionViewSet(viewsets.ModelViewSet):
+    """管理数据库中的三项竞赛评分细则选项信息"""
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    queryset = models.ThreeCompetitionRuleOption.objects.all()
+    serializer_class = serializers.ThreeCompetitionRuleOptionSerializer
+
+    def get_queryset(self):
+        """返回所有三项竞赛评分细则对象"""
+        return self.queryset.all().order_by('-id')
+
+
+class DormitoryCompetitionViewSet(viewsets.ModelViewSet):
+    """管理数据库中的寝室竞赛信息"""
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    queryset = models.DormitoryCompetition.objects.all()
+    serializer_class = serializers.DormitoryCompetitionSerializer
+
+    def get_queryset(self):
+        """返回所有寝室竞赛对象"""
+        return self.queryset.all().order_by('-id')

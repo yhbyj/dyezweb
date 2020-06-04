@@ -11,6 +11,15 @@ router = DefaultRouter()
 router.register('admissions', views.AdmissionViewSet)
 router.register('major-categories', views.MajorCategoryViewSet)
 router.register('majors', views.MajorViewSet)
+router.register('dormitories', views.DormitoryViewSet)
+router.register('three-competition-rule-categories',
+                views.ThreeCompetitionRuleCategoryViewSet)
+router.register('three-competition-rules',
+                views.ThreeCompetitionRuleViewSet)
+router.register('three-competition-rule-options',
+                views.ThreeCompetitionRuleOptionViewSet)
+router.register('dormitory-competitions',
+                views.DormitoryCompetitionViewSet)
 
 
 app_name = 'student'

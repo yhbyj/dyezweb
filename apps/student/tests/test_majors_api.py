@@ -79,7 +79,7 @@ class PrivateMajorsApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
 
-    def test_create_major_category_successful(self):
+    def test_create_major_successful(self):
         """测试：创建新的专业，成功"""
         major_category = sample_major_category()
         payload = {

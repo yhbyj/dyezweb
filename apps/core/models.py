@@ -247,8 +247,8 @@ class MajorCategory(BaseModel):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        title = '{}--{}'.format(self.parent_category, self.name)
-        title = title.replace('None--', '')
+        title = '{}-{}'.format(self.parent_category, self.name)
+        title = title.replace('None-', '')
         return title
 
 
@@ -719,7 +719,6 @@ class Dormitory(BaseModel):
 
     def __str__(self):
         title = '{}-{}'.format(self.building, self.short_code)
-        title = title.replace('None-', '')
         return title
 
 
@@ -759,8 +758,8 @@ class ThreeCompetitionRuleCategory(BaseModel):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        title = '{}--{}'.format(self.parent_category, self.name)
-        title = title.replace('None--', '')
+        title = '{}-{}'.format(self.parent_category, self.name)
+        title = title.replace('None-', '')
         return title
 
 
@@ -822,8 +821,7 @@ class ThreeCompetitionRuleOption(BaseModel):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        title = '{}--{}--{}'.format(self.rule, self.name, self.value)
-        title = title.replace('None--', '')
+        title = '{}-{}-{}'.format(self.rule, self.name, self.value)
         return title
 
 
@@ -855,6 +853,5 @@ class DormitoryCompetition(BaseModel):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        title = '{}--{}'.format(self.dormitory, self.option)
-        title = title.replace('None--', '')
+        title = '{}-{}'.format(self.dormitory, self.option)
         return title

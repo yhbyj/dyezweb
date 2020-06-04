@@ -208,3 +208,8 @@ docker-compose up
  docker-compose run dyezweb sh -c "python manage.py test recipe && flake8 apps/recipe"
  docker-compose run dyezweb sh -c "python manage.py test student && flake8 apps/student"
 ```  
+##第十七天 
+### 对先前已经编好的代码进行测试（续）
+```commandline
+ docker-compose run dyezweb sh -c "python manage.py test student && flake8 apps/student"
+```  

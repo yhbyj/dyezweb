@@ -118,26 +118,91 @@ class RecipeAppModelTests(TestCase):
 
 
 def sample_clazz():
-    """返回一个班级对象"""
+    """创建一个班级对象，并返回"""
     return models.Clazz.objects.create(
         title='测试班级'
     )
 
 
 def sample_major_category():
-    """返回一个专业类别对象"""
-    return models.MajorCategory.objects.create(
-        name='测试专业类别'
+    """创建一个二级专业类别样例，并返回"""
+    top_major_category = models.MajorCategory.objects.create(
+        name='一级专业类别名称',
+        category_type=1
     )
+    major_category = models.MajorCategory.objects.create(
+        name='二级专业类别名称',
+        category_type=2,
+        parent_category=top_major_category
+    )
+    return major_category
 
 
 def sample_major(category=None):
-    """返回一个专业对象"""
+    """创建一个专业对象，并返回"""
     if category is None:
         category = sample_major_category()
     return models.Major.objects.create(
         name='测试专业',
         category=category
+    )
+
+
+def sample_dormitory():
+    """创建一个寝室对象，并返回"""
+    return models.Dormitory.objects.create(
+        building=7,
+        short_code='405'
+    )
+
+
+def sample_three_competition_rule_category():
+    """创建一个三项竞赛评分细则类别样例，并返回"""
+    top_three_competition_rule_category = \
+        models.ThreeCompetitionRuleCategory.objects.create(
+            name='一级三项竞赛评分细则类别名称',
+            category_type=1
+        )
+    three_competition_rule_category = \
+        models.ThreeCompetitionRuleCategory.objects.create(
+            name='二级三项竞赛评分细则类别名称',
+            category_type=2,
+            parent_category=top_three_competition_rule_category
+        )
+    return three_competition_rule_category
+
+
+def sample_three_competition_rule(category=None):
+    """创建一个三项竞赛评分细则对象，并返回"""
+    if category is None:
+        category = sample_three_competition_rule_category()
+    return models.ThreeCompetitionRule.objects.create(
+        name='测试三项竞赛评分细则',
+        category=category
+    )
+
+
+def sample_three_competition_rule_option(rule=None):
+    """创建一个三项竞赛评分细则选项对象，并返回"""
+    if rule is None:
+        rule = sample_three_competition_rule()
+    return models.ThreeCompetitionRuleOption.objects.create(
+        name='测试三项竞赛评分细则选项',
+        value='测试值',
+        rule=rule
+    )
+
+
+def sample_dormitory_competition(dormitory=None, option=None):
+    """创建一个寝室竞赛对象，并返回"""
+    if dormitory is None:
+        dormitory = sample_dormitory()
+    if option is None:
+        option = sample_three_competition_rule_option()
+    return models.DormitoryCompetition.objects.create(
+        dormitory=dormitory,
+        option=option,
+        score=0.25
     )
 
 
@@ -152,7 +217,13 @@ class StudentAppModelTests(TestCase):
     def test_major_category_str(self):
         """测试：专业类别对象字符串展示"""
         major_category = sample_major_category()
-        self.assertEqual(str(major_category), major_category.name)
+        self.assertEqual(
+            str(major_category),
+            '{}-{}'.format(
+                major_category.parent_category,
+                major_category.name
+            )
+        )
 
     def test_major_str(self):
         """测试：专业对象字符串展示"""
@@ -177,3 +248,58 @@ class StudentAppModelTests(TestCase):
             user=sample_user()
         )
         self.assertEqual(str(admission), admission.name)
+
+    def test_dormitory_str(self):
+        """测试：寝室对象字符串展示"""
+        dormitory = sample_dormitory()
+        self.assertEqual(
+            str(dormitory),
+            '{}-{}'.format(
+                dormitory.building, dormitory.short_code
+            )
+        )
+
+    def test_three_competition_rule_category_str(self):
+        """测试：三项竞赛评分细则类别对象字符串展示"""
+        three_competition_rule_category = \
+            sample_three_competition_rule_category()
+        self.assertEqual(
+            str(three_competition_rule_category),
+            '{}-{}'.format(
+                three_competition_rule_category.parent_category,
+                three_competition_rule_category.name
+            )
+        )
+
+    def test_three_competition_rule_str(self):
+        """测试：三项竞赛评分细则对象字符串展示"""
+        three_competition_rule = sample_three_competition_rule()
+        self.assertEqual(
+            str(three_competition_rule),
+            three_competition_rule.name
+        )
+
+    def test_three_competition_rule_option_str(self):
+        """测试：三项竞赛评分细则选项对象字符串展示"""
+        three_competition_rule_option = \
+            sample_three_competition_rule_option()
+        self.assertEqual(
+            str(three_competition_rule_option),
+            '{}-{}-{}'.format(
+                three_competition_rule_option.rule,
+                three_competition_rule_option.name,
+                three_competition_rule_option.value
+            )
+        )
+
+    def test_dormitory_competition_str(self):
+        """测试：寝室竞赛对象字符串展示"""
+        dormitory_competition = \
+            sample_dormitory_competition()
+        self.assertEqual(
+            str(dormitory_competition),
+            '{}-{}'.format(
+                dormitory_competition.dormitory,
+                dormitory_competition.option
+            )
+        )
