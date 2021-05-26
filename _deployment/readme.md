@@ -1,5 +1,5 @@
 #应用部署（_deployment）手册
-部署方式：传统方式部署（legacy）、docker方式部署等。  
+部署方式：传统方式部署（legacy）、docker方式部署、k3s方式部署等。  
 本地环境一般是 windows系统  
 线上环境一般是 linux系统  
 requirements_extra.txt  pip 安装时的附加包信息。
@@ -69,3 +69,4 @@ docker-compose -f local.yml up
 ```commandline
 docker stack deploy -c online.yml dyezweb
 ```
+##k3s部署方式

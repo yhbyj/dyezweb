@@ -1,5 +1,11 @@
 /_deployment/legacy/online/_credentials.py
 /_deployment/legacy/online/settings.py
 /_deployment/docker/online/django/settings.py
+/_materials/
 /static/
 /media/
+*.sqlite3
+geckodriver.log
+__pycache__
+*.pyc
+.idea
