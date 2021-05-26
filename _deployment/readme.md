@@ -69,4 +69,8 @@ docker-compose -f local.yml up
 ```commandline
 docker stack deploy -c online.yml dyezweb
 ```
-##k3s部署方式
+## k3s 部署方式
+部署文件格式转换：  
+```commandline
+docker stack deploy -c online.yml dyezweb
+```

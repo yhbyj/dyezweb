@@ -213,3 +213,8 @@ docker-compose up
 ```commandline
  docker-compose run dyezweb sh -c "python manage.py test student && flake8 apps/student"
 ```  
+##第十八天（与第十七天隔了很久） 
+### k3s 部署
+```commandline
+kompose convert -f docker-compose.yml
+``` 
